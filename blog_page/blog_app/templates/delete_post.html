@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}
+Delete the post.
+{% endblock %}
+{% block content %}
+
+User Logged In: {{user.username}} (User ID: {{ user.id }})
+<hr>
+<!-- Check if user is logged in or not -->
+{% if user.is_authenticated %}
+    <h3>Deleting {{ post.blog_page_header }} </h3>
+    <br><br>
+    <h2><strong>Delete: {{ post.blog_title }}?</strong></h2>
+    <br>
+    <div class="form-group">
+        <form method="POST">
+
+            {% csrf_token %}
+            <hr>Are you sure that you want to delete this blog post?</strong><br><br>
+            <button class="btn btn-danger">DELETE</button>
+            <a href="{% url 'home' %}" class="btn btn-danger">CANCEL</a>
+            
+        </form>    
+    </div>
+{% else %}
+
+    <strong>Please login to delete a blog post.</strong>
+
+{% endif %}
+
+{% endblock %}

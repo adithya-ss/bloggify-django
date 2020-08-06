@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}
+Creating a new blog post
+{% endblock %}
+{% block content %}
+
+User Logged In: {{user.username}} (User ID: {{ user.id }})
+<hr>
+<!-- Check if user is logged in or not -->
+{% if user.is_authenticated %}
+    {% if user.id == 1 %}
+        <h3>Add a new blog post!</h3>
+        <hr>
+        <div class="form-group">
+            <form method="POST" enctype="multipart/form-data"> 
+
+                {% csrf_token %}
+                {{ form.media }}
+                {{ form.as_p }}
+                <button class="btn btn-success">POST</button>
+                <a href="{% url 'home' %}" class="btn btn-dark">CANCEL</a>
+            
+            </form>    
+        </div>
+    {% else %}
+        Please login as ADMINISTRATOR to edit or update a post.
+    {% endif %}
+    
+{% else %}
+    <strong>Please login to add a new blog post.</strong>
+
+{% endif %}
+<!-- <h3>Add a new blog post!</h3>
+<hr>
+<table>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_table }}   
+    </form>
+</table>
+
+<button class="btn btn-success">POST</button> -->
+
+{% endblock %}

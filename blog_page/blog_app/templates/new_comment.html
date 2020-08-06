@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}
+Commenting on a blog post.
+{% endblock %}
+{% block content %}
+
+User Logged In: {{user.username}} (User ID: {{ user.id }})
+<hr>
+<!-- Check if user is logged in or not -->
+{% if user.is_authenticated %}
+        <h3>Add a new comment</h3>
+        <hr>
+        <div class="form-group">
+            <form method="POST"> 
+
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-success">Add comment</button>
+                <a href="{% url 'home' %}" class="btn btn-dark">CANCEL</a>
+            
+            </form>    
+        </div>
+
+{% else %}
+    <strong>Please login to add a comment.</strong>
+
+{% endif %}
+
+{% endblock %}

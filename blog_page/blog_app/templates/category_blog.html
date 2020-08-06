@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<br>
+
+User Logged In: {{user.username}} (User ID: {{ user.id }})
+<hr>
+<h3>CATEGORY: {{ ctg }}</h3>
+<hr><br>
+
+{% if posts_for_ctg %}
+    <ul>
+        {% for post in posts_for_ctg %}
+            <li>
+                <a href="{% url 'blog_detail' post.pk %}"><h5>{{ post.blog_title }} :</h5></a> 
+                By {{ post.blog_author }}, <small><p>{{ post.blog_category }} | {{ post.blog_pub_date }}</p></small>
+                <!-- To limit the number of charecters which appear from the body -->
+                {{ post.blog_body | slice:":250" | safe }}
+            </li>
+            <br>
+        {% endfor %}
+    </ul>
+{% else %}
+    <h3>Sorry! Category "{{ctg}}" does not exits.</h3>
+{% endif %}
+
+{% endblock %}

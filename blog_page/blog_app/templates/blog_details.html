@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ post.blog_page_header }}
+{% endblock %}
+
+{% block content %}
+User Logged In: {{user.username}} (User ID: {{ user.id }})
+<hr>
+<h2>{{ post.blog_title }}</h2>
+<p>By: {{ post.blog_author.first_name }} {{ post.blog_author.last_name }}</p>
+<small><p>{{ post.blog_pub_date }}</p></small>
+<hr>
+<br>
+{% if post.blog_image %}
+<img src="{{ post.blog_image.url }}">
+{% endif %}
+<br><br>
+{{ post.blog_body | safe }}
+<br>
+<br>
+<hr>
+<h4>Comments:</h4>
+
+    {% if not post.comments.all %}
+        No comments yet. Be the first!
+        <br><a href="{% url 'new_comment' post.pk %}">Add a new comment</a>
+    {% else %}
+        <a href="{% url 'new_comment' post.pk %}">Add a new comment</a>
+        <br>
+        <br>
+        {% for each_comment in post.comments.all %}
+            <strong>{{ each_comment.user_name}}</strong>
+            <small>{{ each_comment.commented_date }}</small>
+            <br>
+            {{ each_comment.comment_body }}
+            <br><br>
+        {% endfor %}
+    {% endif %}
+
+<br>
+<br>
+<hr>
+<br>
+<br>
+<!-- Check if user is logged in or not -->
+{% if user.is_authenticated %}
+    {% if user.id == 1 %}
+        <a href="{% url 'edit_post' post.pk %}" class="btn btn-warning">Edit Blog Post</a>
+        <a href="{% url 'delete_post' post.pk %}" class="btn btn-danger">DELETE Blog Post</a>
+    {% endif %}
+{% endif %}
+<a href="{% url 'home' %}" class="btn btn-success">Back to Home</a>
+
+{% endblock %}
